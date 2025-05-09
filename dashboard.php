@@ -42,6 +42,7 @@ $nav = basename($nav);
         if(isset($_SESSION['status']) && $_SESSION['status']=="admin"){?>
             <div class="flex"><i class="fa fa-search"></i><a href="dashboard.php?p=add_party">Add parties</a></div>
             <div class="flex"><i class="fa fa-search"></i><a href="dashboard.php?p=add_voter">Add voters</a></div>
+            <div class="flex"><i class="fa fa-search"></i><a href="dashboard.php?p=add_position">Add Position</a></div>
         <?php } ?>
         <div class="flex"><i class="fa fa-search"></i><a href="dashboard.php?p=home">Voting status</a></div>
         <div class="flex"><i class="fa fa-search"></i><a href="dashboard.php?p=vote">vote</a></div>

@@ -1,34 +1,51 @@
+<style>
+    .main{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: start;
+    }
+     .views{
+        margin: 1rem -1.5rem 2rem 0;
+    }
+</style>
 <div class="flex-container flex">
     <div class="flex-container box">
-        <h2>Products</h2>
+        <h2>Parties</h2>
         <div>3</div>
     </div>
     <div class="flex-container box">
-        <h2>cart</h2>
+        <h2>Voting Posts</h2>
         <div>4</div>
+    </div>
+    <div class="flex-container box">
+        <h2>Voters</h2>
+        <div>3</div>
     </div>
     <div class="flex-container box">
         <h2>Alerts</h2>
         <div>3</div>
     </div>
-    <div class="flex-container box">
-        <h2>Details</h2>
-        <div>3</div>
-    </div>
 </div>
+<div class="titles views">View all voter profiles</div>
 <table class="tables">
     <thead>
         <tr>
-            <th>email</th>
-            <th>password</th>
-            <th>confirm password</th>
-            <th>tel</th>
-            <th>vote</th>
+            <th>EMAIL</th>
+            <th>PASSWORD</th>
+            <th>CONFIRM PASSWORD</th>
+            <th>TEL</th>
+            <?php if(isset($_SESSION['name']) && $_SESSION['name'] == 'admin'){ ?>
+            <th>DELETE</th>
+            <?php }?>
         </tr>
     </thead>
     <?php
         require "backend/conn.php";
-
+        if(isset($_GET['p']) && isset($_SESSION['name']) && $_SESSION['name']=="admin"){
+            $current_url = urlencode($_GET['p']);
+        }
+        // echo $current_url;
         $sql = "select * from user_profiles";
         $results = $conn->query($sql);
         
@@ -42,9 +59,10 @@
                         <td><?php echo $rows['pwd']; ?></td>
                         <td><?php echo $rows['confirm_pwd']; ?></td>
                         <td><?php echo $rows['tel']; ?></td>
-                        <!-- <?php 
-                        // echo '<td><a href="backend/delete.php/?u={<?php echo $rows['id']; ?>}">Delete</a></td>';
-                        ?> -->
+                        <?php 
+                        if(isset($_SESSION['name']) && $_SESSION['name'] == 'admin'){
+                            echo '<td><a href="backend/delete.php?u=' . urlencode($rows['id']) . '&table=user_profiles&redirect=' . $current_url . '">Delete</a></td>';
+                        }?>
                     </tr>
                 </tbody>
                 <?php

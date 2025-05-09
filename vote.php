@@ -1,60 +1,48 @@
 <div class="lables">Vote your candidate here</div>
-<div class="titles">Guild President</div>
-<div class="wrapping">
-    <?php
-    require "backend/conn.php";
-    
-    $sql = "select candidate.name,candidate.slogan,party.name from candidate join party on candidate.party_id=party.id";
-    $results = $conn->query($sql);
-    
-    if($result = $results->num_rows >0){
-        while($rows = $results->fetch_assoc()){
-            // print_r($rows);
-            ?>
-            <div class="flex-container card">
-                <h1><?php echo$rows['name']; ?></h1>
-                <p><?php echo$rows['slogan']; ?></p>
-                <a href="">Click to vote</a>
-            </div>
-            <?php
-        }
-    }
-?>
-</div>
-<!-- repeat the class of wrapping basing on the voting posts available -->
-<div class="titles">Guild President</div>
-<div class="wrapping">
+
+
 <?php
-    require "backend/conn.php";
+require "backend/conn.php";
 
-    $sql = "select * from candidate";
-    $results = $conn->query($sql);
-    
-    if($result = $results->num_rows >0){
-        while($rows = $results->fetch_assoc()){
-            // print_r($rows);
-            ?>
-            <div class="flex card"><?php echo$rows['name']; ?></div>
-            <?php
+// Step 1: Get all unique positions
+$sql_positions = "SELECT DISTINCT position FROM candidate ORDER BY position";
+$positions_result = $conn->query($sql_positions);
+
+if ($positions_result && $positions_result->num_rows > 0) {
+    // Step 2: Loop through each unique position
+    while ($position_row = $positions_result->fetch_assoc()) {
+        $position = $position_row['position'];
+        echo "<h2>Position: $position</h2>"; 
+        echo '<div class="wrapping">';
+        
+        // Step 3: Get candidates for this position
+        $sql_candidates = "SELECT candidate.name AS candidatename, 
+                                  candidate.position AS position, 
+                                  candidate.slogan AS candidateslogan, 
+                                  party.name AS partyname 
+                           FROM candidate 
+                           LEFT JOIN party ON candidate.party_id = party.id
+                           WHERE candidate.position = '$position'";
+
+        $candidates_result = $conn->query($sql_candidates);
+
+        if ($candidates_result && $candidates_result->num_rows > 0) {
+            // Step 4: Display the candidates for this position
+            while ($row = $candidates_result->fetch_assoc()) {
+                ?>
+                <div class="flex-container card">
+                    <h1><?php echo $row['candidatename']; ?></h1>
+                    <p><?php echo $row['position']; ?></p>
+                    <p><?php echo $row['partyname']; ?></p>
+                    <a href="">Click to vote</a>
+                </div>
+                <?php
+            }
+        } else {
+            echo "<p>No candidates for this position.</p>";
         }
+        
+        echo '</div>';  // Close the wrapping div for the position
     }
+}
 ?>
-</div>
-
-<div class="wrapping">
-<?php
-    require "backend/conn.php";
-
-    $sql = "select * from candidate";
-    $results = $conn->query($sql);
-    
-    if($result = $results->num_rows >0){
-        while($rows = $results->fetch_assoc()){
-            // print_r($rows);
-            ?>
-            <div class="flex card"><?php echo$rows['name']; ?></div>
-            <?php
-        }
-    }
-?>
-</div>

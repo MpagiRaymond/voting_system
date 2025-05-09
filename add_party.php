@@ -43,13 +43,14 @@ require "backend/conn.php";
     </thead>
     <?php
         require "backend/conn.php";
-
+        $current_url = urlencode($_GET['p']);
+        // echo $current_url;
         $sql = "SELECT * FROM party";
         $results = $conn->query($sql);
         
         if($result = $results->num_rows >0){
             while($rows = $results->fetch_assoc()){
-                print_r($rows);
+                // print_r($rows);
                 ?>
                 <tbody>
                     <tr>
@@ -57,7 +58,8 @@ require "backend/conn.php";
                         <td><?php echo $rows['name']; ?></td>
                         <td><?php echo $rows['slogan']; ?></td>
                         <?php 
-                        echo '<td><a href="backend/delete.php?u=' . urlencode($rows['id']) . '">Delete</a></td>';
+                        echo '<td><a href="backend/delete.php?u=' . urlencode($rows['id']) . '&table=party&redirect=' . $current_url . '">Delete</a></td>';
+                        // echo '<td><a href="backend/delete.php?u=' . urlencode($rows['id']) . '">Delete</a></td>';
                         ?>
                     </tr>
                 </tbody>
