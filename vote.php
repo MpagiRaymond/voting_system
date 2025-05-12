@@ -4,19 +4,31 @@
 <?php
 require "backend/conn.php";
 
-// Step 1: Get all unique positions
+$voter_name = $_SESSION['name'];
+$vid = $_SESSION['vid'];
+// echo $vid;
 $sql_positions = "SELECT DISTINCT position FROM candidate ORDER BY position";
 $positions_result = $conn->query($sql_positions);
 
+$votes = "select distinct position from done_voting where voter_name ='$voter_name'"; 
+$voter = $conn->query($votes);
+// print_r($voter);
 if ($positions_result && $positions_result->num_rows > 0) {
-    // Step 2: Loop through each unique position
     while ($position_row = $positions_result->fetch_assoc()) {
+        // print_r($position_row);
+        if($voter->num_rows > 0){
+            if($erase_position = $voter->fetch_assoc()){
+            print_r($erase_position);
+            echo '<div class="alerts">You have already voted</div>';
+            continue;
+            }
+        }
         $position = $position_row['position'];
         echo "<h2>Position: $position</h2>"; 
         echo '<div class="wrapping">';
         
-        // Step 3: Get candidates for this position
-        $sql_candidates = "SELECT candidate.name AS candidatename, 
+        $sql_candidates = "SELECT candidate.id as cid,
+                                    candidate.name AS candidatename, 
                                   candidate.position AS position, 
                                   candidate.slogan AS candidateslogan, 
                                   party.name AS partyname 
@@ -27,14 +39,17 @@ if ($positions_result && $positions_result->num_rows > 0) {
         $candidates_result = $conn->query($sql_candidates);
 
         if ($candidates_result && $candidates_result->num_rows > 0) {
-            // Step 4: Display the candidates for this position
             while ($row = $candidates_result->fetch_assoc()) {
+                // print_r($row);
                 ?>
                 <div class="flex-container card">
                     <h1><?php echo $row['candidatename']; ?></h1>
                     <p><?php echo $row['position']; ?></p>
                     <p><?php echo $row['partyname']; ?></p>
-                    <a href="">Click to vote</a>
+                    <?php 
+                    // echo '<a href="./backend/votes.php/?v=' . $row['cid'] . '&voter='. $_SESSION['vid'] .'">Click to vote</a>'
+                    echo '<a href="./backend/votes.php/?v=' . $row['cid'] . '&voter='.$vid.'">Click to vote</a>'
+                     ?>
                 </div>
                 <?php
             }
@@ -42,7 +57,7 @@ if ($positions_result && $positions_result->num_rows > 0) {
             echo "<p>No candidates for this position.</p>";
         }
         
-        echo '</div>';  // Close the wrapping div for the position
+        echo '</div>';  
     }
 }
 ?>

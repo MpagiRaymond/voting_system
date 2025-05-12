@@ -30,12 +30,14 @@
                 $row = $result->fetch_assoc();
                 // print_r($row);
                 $hashedpwd = password_verify($_POST['pwd'], $row['password']);
-                echo "<script>alert('{$_SESSION['status']}');</script>";
                 $_SESSION = [
                     'name' => $row['name'],
                     'success'  => "your Welcome",
-                    'status' => $row['status']
+                    'status' => $row['status'],
+                    'vid' => $row['id'],
                 ];
+                echo "<script>alert('you are welcome {$_SESSION['status']}');</script>";
+                // echo $_SESSION['vid'];
                 header("location: dashboard.php");
                 exit();
             }
@@ -66,6 +68,7 @@
     <input class="flex" type="email" name="email" placeholder="email">
     <input class="flex" type="password" name="pwd" placeholder="password">
     <button class="flex" type="submit">SUBMIT</button>
+    <div class="flex">New voter should <a href="./add_voter.php">Register</a></div>
 </form>
 
 </body>

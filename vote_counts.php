@@ -1,0 +1,1 @@
+<div>no votes present so far</div>

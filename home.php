@@ -45,7 +45,6 @@
         if(isset($_GET['p']) && isset($_SESSION['name']) && $_SESSION['name']=="admin"){
             $current_url = urlencode($_GET['p']);
         }
-        // echo $current_url;
         $sql = "select * from user_profiles";
         $results = $conn->query($sql);
         

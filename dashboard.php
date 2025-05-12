@@ -44,14 +44,14 @@ $nav = basename($nav);
             <div class="flex"><i class="fa fa-search"></i><a href="dashboard.php?p=add_voter">Add voters</a></div>
             <div class="flex"><i class="fa fa-search"></i><a href="dashboard.php?p=add_position">Add Position</a></div>
         <?php } ?>
-        <div class="flex"><i class="fa fa-search"></i><a href="dashboard.php?p=home">Voting status</a></div>
+        <div class="flex"><i class="fa fa-search"></i><a href="dashboard.php?p=vote_counts">Voting status</a></div>
         <div class="flex"><i class="fa fa-search"></i><a href="dashboard.php?p=vote">vote</a></div>
         <div class="dropdown">
             <button class="dropbtn"><i class="fa fa-search"></i>Candidate<i class="fa fa-caret-down"></i></button>
             <div class="dropdown-content flex-container">
                 <a href="dashboard.php?p=add_candidate"><i class="fa fa-user"></i>view candidates</a>
                 <a href="dashboard.php?p=candidate_profiles"><i class="fa fa-user"></i>Candidate profile</a>
-                <a href="dashboard.php?p=vote"><i class="fa fa-user"></i>Results</a>
+                <a href="dashboard.php?p=results"><i class="fa fa-user"></i>Results</a>
             </div>
         </div>
         <div class="flex"><i class="fa fa-home"></i><a href="dashboard.php?p=Notiications">Notifications</a></div>

@@ -3,13 +3,12 @@ require "backend/conn.php";
     if($_SERVER['REQUEST_METHOD']=="POST"){
             $name = $_POST['party'];
             $slogan = $_POST['slogan'];
-            $id = $_POST['id'];
 
-        if(empty($party) || empty($slogan)){
+        if(empty($name) || empty($slogan)){
             $_SESSION['error'] = "fill in the missing fields";
         }else{
             
-            $sql = "insert into party(name,slogan,id) values('$name','$slogn','$id')";
+            $sql = "insert into party(name,slogan) values('$name','$slogan')";
             if($conn->query($sql)){
                 $_SESSION['success'] = "Your data updated";
             }
@@ -25,10 +24,10 @@ require "backend/conn.php";
         echo '<div class="alerts">'. $_SESSION['success']. '</div>';
         unset($_SESSION['success']);
     }?>
-<form class="flex add_c" action="<?php echo $_SERVER['PHP_SELF'] ?>?p=add_candidate" method="post">
+<form class="flex add_c" action="<?php echo $_SERVER['PHP_SELF'] ?>?p=add_party" method="post">
    <input class="flex" type="text" name="party" placeholder="party name">
    <input class="flex" type="text" name="slogan" placeholder="party slogan">
-   <input class="flex" type="number" name="id" placeholder="Id">
+   <!-- <input class="flex" type="number" name="id" placeholder="Id"> -->
    <button class="flex" type="submit">SUBMIT</button>
 </form>
 <div class="titles views">View all parties</div>
